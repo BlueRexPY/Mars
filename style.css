@@ -3,7 +3,7 @@ body {
     overflow           : hidden;
     background         : url("img/bg.png");
     background-position: center;
-    background-repeat  : no-repeat;
+    background-repeat  : repeat;
     background-size    : cover;
     overflow           : hidden;
 }

@@ -1,0 +1,223 @@
+<html>
+  <head>
+    <title>3D MARS</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="img/logo.svg" type="image/x-icon" />
+    <script src="javascripts/three.js"></script>
+    <script src="javascripts/GLTFLoader.js"></script>
+    <script src="javascripts/chart.min.js"></script>
+    <script src="javascripts/anime.min.js"></script>
+  </head>
+  <body>
+    <canvas id="mars_3d"></canvas>
+    <div id="page1">
+      <a href="#" class="to_mars" id="travel_button" onclick="log()">EXPLORE</a>
+    </div>
+    <div id="page2">
+      <section class="caption" id="caption">
+        <h1 id="caption_1">
+          Explore the <span style="color: #e4351a">Mars</span>
+        </h1>
+        <p id="caption_2">
+          the fourth farthest from the Sun and the seventh largest planet in the
+          solar system; the mass of the planet is 10.7% of the mass of the
+          Earth.
+        </p>
+        <canvas id="myChart"></canvas>
+      </section>
+      <section id="percent">
+        <h2 id="percent_1" class="indent40">Carbon Dioxide</h2>
+        <h2 id="percent_2" class="indent20">Nitrogen</h2>
+        <h2 id="percent_3">Argon</h2>
+        <h2 id="percent_4" class="indent20">Oxygen</h2>
+        <h2 id="percent_5" class="indent40">Carbon Monoxide</h2>
+      </section>
+    </div>
+
+    <script type="module">
+
+var renderer,
+  scene,
+  camera,
+  mars = document.getElementById("mars_3d");
+
+renderer = new THREE.WebGLRenderer({
+  canvas: mars,
+  antialias: true,
+  alpha: true,
+});
+
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+//Камера
+camera = new THREE.PerspectiveCamera(
+  30,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000
+);
+
+//Сцена
+scene = new THREE.Scene();
+
+//Свет
+var light = new THREE.AmbientLight(0xffffff, 0.3);
+scene.add(light);
+
+var light2 = new THREE.PointLight(0xffffff, 0.9);
+light2.position.y = 5000;
+light2.position.x = -5000;
+light2.position.z = 5000;
+scene.add(light2);
+
+var loader = new THREE.GLTFLoader();
+
+loader.load("models/scene.gltf", handle_load);
+
+var mesh;
+
+function handle_load(gltf) {
+  mesh = gltf.scene;
+  mesh.children[0].material = new THREE.MeshLambertMaterial();
+  scene.add(mesh);
+  mesh.position.z = -750;
+  mesh.position.x = 0;
+  mesh.position.y = 0;
+}
+
+//Рендер
+render();
+
+var delta = 0;
+var prevTime = Date.now();
+var zoom = Boolean(false);
+
+function render() {
+  delta += 0.1;
+
+  if (mesh) {
+    mesh.rotation.y += 0.005;
+    if (zoom == true) {
+      if (mesh.position.x <= 150 && mesh.position.y >= -130) {
+        if (window.screen.width <= 400) {
+          mesh.position.x += 0.1;
+          mesh.position.y -= 5;
+          mesh.position.z += 0.1;
+        } else {
+          mesh.position.x += 6;
+          mesh.position.y -= 0.7;
+        }
+        mesh.rotation.y += 0.05;
+        mesh.position.z += 16;
+      }
+    }
+  }
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(render);
+}
+
+travel_button.onclick = function () {
+  zoom = true;
+  travel_button.style.opacity = 0;
+  move();
+};
+
+//chart.js
+new Chart(document.getElementById("myChart"), {
+  type: "doughnut",
+  data: {
+    labels: [
+      "Carbon Dioxide",
+      "Nitrogen",
+      "Argon",
+      "Oxygen",
+      "Carbon Monoxide",
+    ],
+    datasets: [
+      {
+        backgroundColor: [
+          "rgba(238, 53, 26,0.6)",
+          "rgba(228, 53, 26,0.5)",
+          "rgba(228, 53, 26,0.4)",
+          "rgba(228, 53, 26,0.3)",
+          "rgba(228, 53, 26,0.2)",
+        ],
+        borderColor: "rgba(0, 0, 0, 0)",
+        data: [95.32, 2.7, 1.69, 0.14, 0.08],
+        hoverOffset: 3,
+      },
+    ],
+  },
+  options: {
+    animation: {
+      duration: 2000,
+    },
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "none",
+        //так делать не надо
+      },
+      title: {
+        display: true,
+        text: "the atmosphere of Mars consists",
+      },
+    },
+  },
+});
+
+//anime.js
+function move() {
+  if (window.screen.width <= 400) {
+    var elements = [`caption_1`, `caption_2`, `myChart`];
+  } else {
+    var elements = [
+      `percent_1`,
+      `percent_2`,
+      `percent_3`,
+      `percent_4`,
+      `percent_5`,
+      `caption_1`,
+      `caption_2`,
+      `myChart`,
+    ];
+  }
+
+  var tl = anime.timeline({
+    easing: "easeOutExpo",
+    delay: 400,
+  });
+  for (let n = 0; n < elements.length; n++) {
+    tl.add(
+      {
+        targets: `#${elements[n]}`,
+        opacity: 1,
+      },
+      n * 300
+    );
+  }
+}
+
+//Адаптив
+if (window.screen.width <= 420) {
+  document.getElementById("travel_button").style.fontSize = "80px";
+  document.getElementById("caption").style.top = "15%";
+  document.getElementById("caption").style.left = "30%";
+  document.getElementById("caption").style.marginLeft = "0";
+  document.getElementById("caption").style.transform = "scale(1.8)";
+  document.getElementById("name").style.fontSize = "30px";
+}
+
+    </script>
+    <a href="https://github.com/BlueRexPY" id="name" target="_blank">Ruslan</a>
+  </body>
+</html>

@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>3D MARS</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="shortcut icon" href="" type="image/x-icon" />
+    <script src="/javascripts/script.js" type="module"></script>
+    <script src="/javascripts/three.js"></script>
+    <script src="/javascripts/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/javascripts/anime.min.js"></script>
+  </head>
+  <body>
+    <canvas id="mars_3d"></canvas>
+    <div id="page1">
+      <a href="#" class="to_mars" id="travel_button" onclick="log()">EXPLORE</a>
+    </div>
+    <div id="page2">
+      <section class="caption" id="caption">
+        <h1 id="caption_1">
+          Explore the <span style="color: #e4351a">Mars</span>
+        </h1>
+        <p id="caption_2">
+          the fourth farthest from the Sun and the seventh largest planet in the
+          solar system; the mass of the planet is 10.7% of the mass of the
+          Earth.
+        </p>
+        <canvas id="myChart"></canvas>
+      </section>
+      <section id="percent">
+        <h2 id="percent_1" class="indent40">Carbon Dioxide</h2>
+        <h2 id="percent_2" class="indent20">Nitrogen</h2>
+        <h2 id="percent_3">Argon</h2>
+        <h2 id="percent_4" class="indent20">Oxygen</h2>
+        <h2 id="percent_5" class="indent40">Carbon Monoxide</h2>
+      </section>
+    </div>
+    <a href="https://github.com/BlueRexPY" id="name" target="_blank">Ruslan</a>
+  </body>
+</html>

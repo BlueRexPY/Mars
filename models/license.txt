@@ -1,0 +1,11 @@
+Model Information:
+* title:	Mars
+* source:	https://sketchfab.com/3d-models/mars-fc45ff6c9f9a4dd19a71b802654a2781
+* author:	SunnyChen753 (https://sketchfab.com/sunnychen753)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Mars" (https://sketchfab.com/3d-models/mars-fc45ff6c9f9a4dd19a71b802654a2781) by SunnyChen753 (https://sketchfab.com/sunnychen753) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
